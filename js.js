@@ -28,7 +28,7 @@ let topPipeImg;
 let bottomPipeImg;
 
 //physics
-let velocityX = -2;//pipes moving left speed
+let velocityX = -2; // pipes moving left speed
 let velocityY = 0;
 let gravity = 0.07;
 let gameOver = false;
@@ -53,7 +53,7 @@ window.onload = () => {
         context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
     }
 
-    topPipeImg = new Image();//image object's instance
+    topPipeImg = new Image(); // image object's instance
     topPipeImg.src = "./assets/toppipe.png";
 
     bottomPipeImg = new Image();
@@ -61,11 +61,10 @@ window.onload = () => {
 
     requestAnimationFrame(update);
     setInterval(placePipes, 900);
+    // Use pointerdown event for unified touch and mouse input
+    document.addEventListener("pointerdown", moveBird);
     document.addEventListener("keydown", moveBird);
-
 }
-
-
 
 function update() {
     requestAnimationFrame(update);
@@ -113,7 +112,6 @@ function update() {
         pipeArr.shift();
     }
 
-
     if (gameOver) {
         context.fillStyle = "white";
         context.font = " bold 45px sans-serif"
@@ -121,9 +119,7 @@ function update() {
     }
 }
 
-
 function placePipes() {
-
     if (gameOver) {
         return;
     }
@@ -152,14 +148,13 @@ function placePipes() {
     pipeArr.push(bottomPipe);
 }
 
-
 function moveBird(e) {
-    if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
+    if (e.type === "pointerdown" || e.code == "Space" || e.code == "KeyX" || e.code == "ArrowUp") {
         velocityY += -5;
     }
 
-    //reset game
-    if (gameOver) {
+    // Reset game on touch or mouse input
+    if (gameOver && (e.type === "pointerdown" || e.code == "Space" || e.code == "KeyX" || e.code == "ArrowUp")) {
         bird.y = birdY;
         pipeArr = [];
         score = 0;
@@ -169,7 +164,6 @@ function moveBird(e) {
         velocityX = -2;
     }
 }
-
 
 function detectCollision(a, b) {
     return a.x < b.x + b.width &&
