@@ -40,10 +40,6 @@ window.onload = () => {
     board.width = boardWidth;
     context = board.getContext("2d");
 
-    //draw the bird
-    // context.fillStyle = "green";
-    // context.fillRect(bird.x, bird.y, bird.width, bird.height);
-
     //load image
     birdImg = new Image();
     birdImg.src = "./assets/flappybird.png";
@@ -58,7 +54,7 @@ window.onload = () => {
     bottomPipeImg.src = "./assets/bottompipe.png";
 
     requestAnimationFrame(update);
-    setInterval(placePipes, 1500);
+    setInterval(placePipes, 900);
     document.addEventListener("keydown", moveBird);
 }
 
