@@ -1,9 +1,14 @@
-  body{
-    font-family: 'Courier New', Courier, monospace;
+  body {
+    font-family: sans-serif;
+    font-weight: bolder;
     text-align: center;
   }
 
-  #board{
+  #board {
     /* background-color: skyblue; */
     background-image: url(./assets/flappybirdbg.png);
+  }
+
+  .score {
+    font-size: 2rem;
   }
