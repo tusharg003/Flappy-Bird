@@ -10,5 +10,10 @@
   }
 
   .score {
+    display: flex;
+    flex-direction: row;
+    padding-left: 40px;
+    margin: auto;
     font-size: 2rem;
+    width: 360px;
   }

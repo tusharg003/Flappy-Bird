@@ -33,6 +33,12 @@ let velocityY = 0;
 let gravity = 0.07;
 let gameOver = false;
 let score = 0;
+let hiScore = localStorage.getItem("highScore");
+if (hiScore === null) {
+    localStorage.setItem("highScore", 0);
+} else {
+    document.querySelector(".high_score").textContent = hiScore;
+}
 
 window.onload = () => {
     board = document.querySelector('#board');
@@ -56,7 +62,10 @@ window.onload = () => {
     requestAnimationFrame(update);
     setInterval(placePipes, 900);
     document.addEventListener("keydown", moveBird);
+
 }
+
+
 
 function update() {
     requestAnimationFrame(update);
@@ -73,6 +82,7 @@ function update() {
     if (bird.y > board.height) {
         gameOver = true;
     }
+
     //pipes
     for (let i = 0; i < pipeArr.length; i++) {
         let pipe = pipeArr[i];
@@ -81,11 +91,18 @@ function update() {
 
         if (!pipe.passed && bird.x > pipe.x + pipe.width) {
             score += 0.5;
-            console.log(score);
+            let currentHighScore = parseInt(localStorage.getItem("highScore"));
+            if (score > currentHighScore) {
+                currentHighScore = score;
+                localStorage.setItem("highScore", currentHighScore);
+                document.querySelector(".high_score").textContent = currentHighScore;
+            }
             pipe.passed = true;
             let windowScore = document.querySelector('.point');
             windowScore.textContent = score;
+            velocityX -= gravity;
         }
+
         if (detectCollision(bird, pipe)) {
             gameOver = true;
         }
@@ -103,6 +120,7 @@ function update() {
         context.fillText("Game Over", boardWidth / 5.5, boardHeight / 2);
     }
 }
+
 
 function placePipes() {
 
@@ -134,6 +152,7 @@ function placePipes() {
     pipeArr.push(bottomPipe);
 }
 
+
 function moveBird(e) {
     if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
         velocityY += -5;
@@ -147,8 +166,10 @@ function moveBird(e) {
         let windowScore = document.querySelector('.point');
         windowScore.textContent = score;
         gameOver = false;
+        velocityX = -2;
     }
 }
+
 
 function detectCollision(a, b) {
     return a.x < b.x + b.width &&
